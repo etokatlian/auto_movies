@@ -44,12 +44,12 @@ html_string = """\
 generated_html = MIMEText(html_string, "html")
 
 sender_email = "etokatlian@gmail.com"
-receiver_email = "etokatlian@gmail.com"
+receiver_emails = ["etokatlian@gmail.com", "tsmith93036@gmail.com"]
 password = ''
 message = MIMEMultipart("alternative")
 message["Subject"] = "This weeks movie briefing"
 message["From"] = sender_email
-message["To"] = receiver_email
+message["To"] = ", ".join(receiver_emails)
 message.attach(generated_html)
 
 context = ssl._create_unverified_context()
@@ -57,5 +57,5 @@ context = ssl._create_unverified_context()
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
     server.login(sender_email, password)
     server.sendmail(
-        sender_email, receiver_email, message.as_string()
+        sender_email, receiver_emails, message.as_string()
     )
